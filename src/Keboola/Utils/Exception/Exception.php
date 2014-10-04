@@ -1,7 +1,7 @@
 <?php
-namespace Keboola\Utils;
+namespace Keboola\Utils\Exception;
 
-class JsonDecodeException extends \Exception {
+class Exception extends \Exception {
 
 	protected $data = array();
 
