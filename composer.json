@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-		"keboola/php-temp": "@dev",
+		"keboola/php-temp": "~0.1.0",
 		"keboola/php-csvtable": "~0.1.1"
     },
 	"require-dev": {
