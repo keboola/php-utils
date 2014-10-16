@@ -3,6 +3,7 @@
 namespace Keboola\Utils;
 
 use	Syrup\ComponentBundle\Exception\SyrupComponentException as Exception;
+use Keboola\Utils\Exception\JsonDecodeException;
 use Keboola\CsvTable\Table;
 use Keboola\Temp\Temp;
 
