@@ -2,7 +2,6 @@
 
 namespace Keboola\Utils;
 
-use	Syrup\ComponentBundle\Exception\SyrupComponentException as Exception;
 use Keboola\Utils\Exception\JsonDecodeException;
 use Keboola\CsvTable\Table;
 use Keboola\Temp\Temp;
@@ -45,7 +44,7 @@ class Utils {
 			break;
 		}
 
-		$e = new JsonDecodeException(500, "JSON decode error: {$error}");
+		$e = new JsonDecodeException("JSON decode error: {$error}");
 		if ($logJson) {
 			$e->setData(array("json" => $json));
 		}
@@ -72,7 +71,7 @@ class Utils {
 			return $data;
 		} else {
 			$type = gettype($data);
-			throw new Exception(500, "Data to parse has to be either an array, object or a JSON string. {$type} provided.");
+			throw new \Exception("Data to parse has to be either an array, object or a JSON string. {$type} provided.");
 		}
 	}
 
