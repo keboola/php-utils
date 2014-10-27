@@ -83,7 +83,7 @@ class Utils {
 	 * @param array $header A header line to write into created file
 	 * @return \Keboola\ExtractorBundle\Common\Table
 	 */
-	public static function createCsv(Temp $temp, $fileName, array $header = null)
+	public static function createCsv(Temp $temp, $fileName, array $header = array())
 	{
 		return Table::create($fileName, $header, $temp);
 	}
