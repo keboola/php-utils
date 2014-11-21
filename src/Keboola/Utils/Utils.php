@@ -81,7 +81,8 @@ class Utils {
 	 * @param \Keboola\Temp\Temp $temp
 	 * @param string $fileName File name Suffix
 	 * @param array $header A header line to write into created file
-	 * @return \Keboola\ExtractorBundle\Common\Table
+	 * @return \Keboola\Csv\Table
+	 * @deprecated Use \Keboola\CsvTable\Table::create($fileName, $header, $temp);
 	 */
 	public static function createCsv(Temp $temp, $fileName, array $header = array())
 	{
@@ -102,6 +103,14 @@ class Utils {
 				return self::formatDateTime($matches[1], $format, $timezone); // TODO format, timezone
 			},
 		$string);
+	}
+
+	public static function replaceDatesInArray($array, $tag = '%%', $format = DATE_W3C, $timezone = null)
+	{
+		array_walk_recursive($array, function(&$string, $key, $settings) {
+			$string = self::replaceDates($string, $settings['tag'], $settings['format'], $settings['timezone']);
+		}, ['tag' => $tag, 'format' => $format, 'timezone' => $timezone]);
+		return $array;
 	}
 
 	/**
