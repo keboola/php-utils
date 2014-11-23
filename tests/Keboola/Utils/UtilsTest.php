@@ -44,4 +44,22 @@ class UtilsTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(Utils::replaceDates("@@now@@", "@@"), date(DATE_W3C));
 		$this->assertEquals(Utils::replaceDates("%%now%%"), date(DATE_W3C));
 	}
+
+	public function testGetDataFromPath() {
+		$data = array(
+			"p" => array(
+				"a" => array(
+					"t" => array(
+						"h" => "Hello world!"
+					)
+				)
+			)
+		);
+		$slash = Utils::getDataFromPath("p/a/t/h", $data);
+		$this->assertEquals($slash, $data["p"]["a"]["t"]["h"]);
+		$dot = Utils::getDataFromPath("p.a.t.h", $data, ".");
+		$this->assertEquals($dot, $data["p"]["a"]["t"]["h"]);
+		$null = Utils::getDataFromPath("p/a/t/g", $data);
+		$this->assertEquals($null, "");
+	}
 }
