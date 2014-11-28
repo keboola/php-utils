@@ -62,4 +62,11 @@ class UtilsTest extends \PHPUnit_Framework_TestCase {
 		$null = Utils::getDataFromPath("p/a/t/g", $data);
 		$this->assertEquals($null, "");
 	}
+
+	public function testIsValidDateTimeString()
+	{
+		$this->assertEquals(Utils::isValidDateTimeString("Fri, 31 Dec 1999 23:59:59 GMT", DATE_RFC1123), true);
+		$this->assertEquals(Utils::isValidDateTimeString("Fri, 31 Dec 1999 23:59:59 +0000", DATE_RFC1123), true);
+		$this->assertEquals(Utils::isValidDateTimeString("2005-08-15T15:52:01+00:00", DATE_W3C), true);
+	}
 }
