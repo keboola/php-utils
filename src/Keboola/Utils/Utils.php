@@ -241,7 +241,7 @@ class Utils {
 					$data = $data[$key];
 				} else {
 					if ($ignoreEmpty == true) { // return if empty and ignore == true
-						$data = "";
+						$data = null;
 						break;
 					} else {
 						throw new Exception("Error parsing data. {$path} not found.");
