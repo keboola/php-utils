@@ -102,7 +102,7 @@ class Utils {
 	{
 		return preg_replace_callback('/'.preg_quote($tag).'(.*?)'.preg_quote($tag).'/',
 			function ($matches) use ($format, $timezone) {
-				return self::formatDateTime($matches[1], $format, $timezone); // TODO format, timezone
+				return self::formatDateTime($matches[1], $format, $timezone);
 			},
 		$string);
 	}
@@ -308,6 +308,10 @@ class Utils {
 			return $matches[1] . "(";
 		}, $definition);
 
+		array_walk_recursive($attributes, function (&$value, $key) {
+
+		});
+
 		$definition = preg_replace_callback("/attr\[([\w\.]*)]/", function($matches) use($attributes) {
 			if (!isset($attributes[$matches[1]])) {
 				throw new EvalStringException("Attribute {$matches[1]} not found in the configuration table!");
@@ -318,4 +322,16 @@ class Utils {
 		return "return " . $definition . ";";
 	}
 
+	public static function flattenArray($array, $prefix = "")
+	{
+		$result = [];
+		foreach ($array as $key => $value)
+		{
+			if (is_array($value))
+				$result = array_merge($result, self::flattenArray($value, $prefix . $key . '.'));
+			else
+				$result[$prefix . $key] = $value;
+		}
+		return $result;
+	}
 }

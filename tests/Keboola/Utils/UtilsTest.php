@@ -90,4 +90,25 @@ class UtilsTest extends \PHPUnit_Framework_TestCase {
 		$something = "very secret server data!";
 		$this->assertEquals(eval(Utils::buildEvalString('attr[test]', ['test' => 'var_dump($something)'])), 'var_dump($something)');
 	}
+
+	public function testFlattenArray()
+	{
+		$multi = [
+			'a' => 'b',
+			'c' => [
+				'd' => 'e',
+				'f' => [
+					'g' => 'h'
+				]
+			]
+		];
+
+		$single = [
+			'a' => 'b',
+			'c.d' => 'e',
+			'c.f.g' => 'h'
+		];
+
+		$this->assertEquals(Utils::flattenArray($multi), $single);
+	}
 }
