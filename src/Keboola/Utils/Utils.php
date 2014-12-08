@@ -283,6 +283,7 @@ class Utils {
 	 * Create a safe validated string to evaluate.
 	 * md5(attr[Some_attribute] . "string")
 	 * date("Y-m-d", strtotime(attr[whateverDate]))
+	 * Nested arrays shall be accessed as attr[nested.value]
 	 * @todo TEST harder!
 	 *
 	 * @param string $definition of the query field
@@ -308,9 +309,7 @@ class Utils {
 			return $matches[1] . "(";
 		}, $definition);
 
-		array_walk_recursive($attributes, function (&$value, $key) {
-
-		});
+		$attributes = self::flattenArray($attributes);
 
 		$definition = preg_replace_callback("/attr\[([\w\.]*)]/", function($matches) use($attributes) {
 			if (!isset($attributes[$matches[1]])) {
