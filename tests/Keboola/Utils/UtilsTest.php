@@ -69,4 +69,25 @@ class UtilsTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(Utils::isValidDateTimeString("Fri, 31 Dec 1999 23:59:59 +0000", DATE_RFC1123), true);
 		$this->assertEquals(Utils::isValidDateTimeString("2005-08-15T15:52:01+00:00", DATE_W3C), true);
 	}
+
+	public function testBuildEvalString()
+	{
+		$this->assertEquals(Utils::buildEvalString('md5(attr[hello])', ['hello' => 'world']), 'return md5(\'world\');');
+		$this->assertEquals(eval(Utils::buildEvalString('md5(attr[hello] . "Me!")', ['hello' => 'world'])), md5("worldMe!"));
+	}
+
+	/**
+	 * @expectedException \Keboola\Utils\Exception\EvalStringException
+	 * @expectedExceptionMessage Function 'die' is not allowed!
+	 */
+	public function testBuildEvalStringIllegalFunction()
+	{
+		Utils::buildEvalString('die("mf")');
+	}
+
+	public function testBuildEvalStringIllegalFunctionInAttr()
+	{
+		$something = "very secret server data!";
+		$this->assertEquals(eval(Utils::buildEvalString('attr[test]', ['test' => 'var_dump($something)'])), 'var_dump($something)');
+	}
 }

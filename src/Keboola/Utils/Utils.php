@@ -3,6 +3,7 @@
 namespace Keboola\Utils;
 
 use Keboola\Utils\Exception\JsonDecodeException,
+	Keboola\Utils\Exception\EvalStringException,
 	Keboola\Utils\Exception\Exception;
 use Keboola\CsvTable\Table;
 use Keboola\Temp\Temp;
@@ -276,6 +277,45 @@ class Utils {
 		}
 
 		return $date && \DateTime::getLastErrors()["warning_count"] == 0 && \DateTime::getLastErrors()["error_count"] == 0;
+	}
+
+	/**
+	 * Create a safe validated string to evaluate.
+	 * md5(attr[Some_attribute] . "string")
+	 * date("Y-m-d", strtotime(attr[whateverDate]))
+	 * @todo TEST harder!
+	 *
+	 * @param string $definition of the query field
+	 * @param array $attributes The current ex's config
+	 * @param array $allowedFns List of allowed function names
+	 * @return string An eval "function"
+	 */
+	public static function buildEvalString(
+		$definition,
+		array $attributes = [],
+		array $allowedFns = [
+			"md5", "sha1", "time", "date", "strtotime", "base64_encode"
+		]
+	) {
+		// Cleanup unwanted methods
+		$definition = preg_replace_callback("/([\w]*)[\s]*\(/i", function($matches) use($allowedFns, $definition) {
+			if (!in_array($matches[1], $allowedFns)) {
+				$e = new EvalStringException("Function '{$matches[1]}' is not allowed!");
+				$e->setData(['string' => $definition, 'allowed' => $allowedFns]);
+				throw $e;
+			}
+
+			return $matches[1] . "(";
+		}, $definition);
+
+		$definition = preg_replace_callback("/attr\[([\w\.]*)]/", function($matches) use($attributes) {
+			if (!isset($attributes[$matches[1]])) {
+				throw new EvalStringException("Attribute {$matches[1]} not found in the configuration table!");
+			}
+			return "'{$attributes[$matches[1]]}'";
+		}, $definition);
+
+		return "return " . $definition . ";";
 	}
 
 }
