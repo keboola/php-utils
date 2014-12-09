@@ -290,6 +290,7 @@ class Utils {
 	 * @param array $attributes The current ex's config
 	 * @param array $allowedFns List of allowed function names
 	 * @return string An eval "function"
+	 * @deprecated
 	 */
 	public static function buildEvalString(
 		$definition,
@@ -321,13 +322,21 @@ class Utils {
 		return "return " . $definition . ";";
 	}
 
-	public static function flattenArray($array, $prefix = "")
+	/**
+	 * Take a multidimensional array and return a singledimensional one
+	 * Array keys are concatenated by "."
+	 * @param array $array
+	 * @param string $prefix Prefix the array key
+	 * @param string $glue
+	 * @return array
+	 */
+	public static function flattenArray($array, $prefix = "", $glue = '.')
 	{
 		$result = [];
 		foreach ($array as $key => $value)
 		{
 			if (is_array($value))
-				$result = array_merge($result, self::flattenArray($value, $prefix . $key . '.'));
+				$result = array_merge($result, self::flattenArray($value, $prefix . $key . $glue));
 			else
 				$result[$prefix . $key] = $value;
 		}
