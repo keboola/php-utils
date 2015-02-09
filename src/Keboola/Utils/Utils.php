@@ -140,7 +140,7 @@ class Utils {
 				$newQuery = array();
 				$pairs = explode("&", $parsed["query"]);
 				foreach($pairs as $pair) {
-					list($key, $val) = explode("=", $pair);
+					list($key, $val) = explode("=", $pair, 2);
 					$newQuery[$key] = urldecode($val);
 				}
 				# Add/Replace parameters from $query

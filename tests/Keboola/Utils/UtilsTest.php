@@ -111,4 +111,10 @@ class UtilsTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(Utils::flattenArray($multi), $single);
 	}
+
+	public function testBuildUrl()
+	{
+		$url = "endpoint?key=value&another=weird==thing";
+		$this->assertEquals("endpoint?key=value&another=weird%3D%3Dthing&third=val", Utils::buildUrl($url, ['third' => 'val']));
+	}
 }
