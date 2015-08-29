@@ -109,7 +109,7 @@ class UtilsTest extends \PHPUnit_Framework_TestCase {
 			'c.f.g' => 'h'
 		];
 
-		$this->assertEquals(Utils::flattenArray($multi), $single);
+		$this->assertEquals($single, Utils::flattenArray($multi));
 	}
 
 	public function testBuildUrl()

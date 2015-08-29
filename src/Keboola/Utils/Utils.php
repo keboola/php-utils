@@ -8,7 +8,8 @@ use Keboola\Utils\Exception\JsonDecodeException,
 use Keboola\CsvTable\Table;
 use Keboola\Temp\Temp;
 
-class Utils {
+class Utils
+{
 	/**
 	 * @brief PHP's json_decode which throws an exception on error
 	 *
@@ -330,11 +331,10 @@ class Utils {
 	 * @param string $glue
 	 * @return array
 	 */
-	public static function flattenArray($array, $prefix = "", $glue = '.')
+	public static function flattenArray(array $array, $prefix = "", $glue = '.')
 	{
 		$result = [];
-		foreach ($array as $key => $value)
-		{
+		foreach ($array as $key => $value)		{
 			if (is_array($value))
 				$result = array_merge($result, self::flattenArray($value, $prefix . $key . $glue));
 			else
