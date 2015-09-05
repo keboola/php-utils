@@ -117,4 +117,27 @@ class UtilsTest extends \PHPUnit_Framework_TestCase {
 		$url = "endpoint?key=value&another=weird==thing";
 		$this->assertEquals("endpoint?key=value&another=weird%3D%3Dthing&third=val", Utils::buildUrl($url, ['third' => 'val']));
 	}
+
+	public function testArrayToObject()
+	{
+		$array = [
+			'str' => 'string',
+			'arr' => ['a','b','c'],
+			'obj' => [
+				'd' => 'dee',
+				'e' => 'eh?'
+			]
+		];
+
+		$object = (object) [
+			'str' => 'string',
+			'arr' => ['a','b','c'],
+			'obj' => (object) [
+				'd' => 'dee',
+				'e' => 'eh?'
+			]
+		];
+
+		$this->assertEquals($object, Utils::arrayToObject($array));
+	}
 }
