@@ -85,7 +85,7 @@ class Utils
 	 * @param object $object
 	 * @return array
 	 */
-	public function objectToArray($object)
+	public static function objectToArray($object)
 	{
 		$data = (array) $object;
 		foreach($data as $key => $value) {
