@@ -126,6 +126,10 @@ class UtilsTest extends \PHPUnit_Framework_TestCase {
 			'obj' => [
 				'd' => 'dee',
 				'e' => 'eh?'
+			],
+			'arrOfObj' => [
+				['f' => 'g'],
+				['h' => 'i']
 			]
 		];
 
@@ -135,9 +139,51 @@ class UtilsTest extends \PHPUnit_Framework_TestCase {
 			'obj' => (object) [
 				'd' => 'dee',
 				'e' => 'eh?'
+			],
+			'arrOfObj' => [
+				(object) ['f' => 'g'],
+				(object) ['h' => 'i']
 			]
 		];
 
 		$this->assertEquals($object, Utils::arrayToObject($array));
+	}
+
+	public function testObjectToArray()
+	{
+		$array = [
+			'str' => 'string',
+			'arr' => ['a','b','c'],
+			'obj' => [
+				'd' => 'dee',
+				'e' => 'eh?'
+			],
+			'arrOfObj' => [
+				['f' => 'g'],
+				['h' => 'i']
+			]
+		];
+
+		$object = (object) [
+			'str' => 'string',
+			'arr' => ['a','b','c'],
+			'obj' => (object) [
+				'd' => 'dee',
+				'e' => 'eh?'
+			],
+			'arrOfObj' => [
+				(object) ['f' => 'g'],
+				(object) ['h' => 'i']
+			]
+		];
+
+		$this->assertEquals($array, Utils::objectToArray($object));
+	}
+
+	public function testIsEmptyObject()
+	{
+		$this->assertTrue(Utils::isEmptyObject(new \stdClass));
+		$this->assertTrue(Utils::isEmptyObject((object) ['item' => new \stdClass]));
+		$this->assertFalse(Utils::isEmptyObject((object) ['item' => 'value']));
 	}
 }

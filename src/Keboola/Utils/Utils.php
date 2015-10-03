@@ -59,6 +59,7 @@ class Utils
 	 *
 	 * @param mixed $data Data to convert
 	 * @return array
+	 * @deprecated
 	 */
 	public static function to_assoc($data)
 	{
@@ -76,6 +77,23 @@ class Utils
 			$type = gettype($data);
 			throw new \Exception("Data to parse has to be either an array, object or a JSON string. {$type} provided.");
 		}
+	}
+
+	/**
+	 * Convert an object to associative array
+	 *
+	 * @param object $object
+	 * @return array
+	 */
+	public function objectToArray($object)
+	{
+		$data = (array) $object;
+		foreach($data as $key => $value) {
+			if (is_object($value) || is_array($value)) {
+				$data[$key] = self::objectToArray($value);
+			}
+		}
+		return $data;
 	}
 
 	/**
@@ -354,5 +372,27 @@ class Utils
 	{
 		// This isn't the most efficient way!
 		return json_decode(json_encode($array));
+	}
+
+	/**
+	 * Recursively scans $object for non-empty objects
+	 * Returns true if the object contains no scalar nor array
+	 * @param \stdClass $object
+	 * @return bool
+	 */
+	public static function isEmptyObject(\stdClass $object)
+	{
+		$vars = get_object_vars($object);
+		if($vars == []) {
+			return true;
+		} else {
+			foreach($vars as $var) {
+				if (!is_object($var)) {
+					return false;
+				} else {
+					return self::isEmptyObject((object) $var);
+				}
+			}
+		}
 	}
 }
