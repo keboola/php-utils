@@ -4,6 +4,7 @@ namespace Keboola\Utils;
 
 use Keboola\Utils\Exception\JsonDecodeException,
 	Keboola\Utils\Exception\EvalStringException,
+	Keboola\Utils\Exception\NoDataFoundException,
 	Keboola\Utils\Exception\Exception;
 use Keboola\CsvTable\Table;
 use Keboola\Temp\Temp;
@@ -264,7 +265,7 @@ class Utils
 						$data = null;
 						break;
 					} else {
-						throw new Exception("Error parsing data. {$path} not found.");
+						throw new NoDataFoundException("Error parsing data. {$path} not found.");
 					}
 				}
 			}
