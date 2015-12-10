@@ -8,6 +8,8 @@ use Keboola\Utils\Exception\JsonDecodeException,
 	Keboola\Utils\Exception\Exception;
 use Keboola\CsvTable\Table;
 use Keboola\Temp\Temp;
+use Seld\JsonLint\JsonParser,
+    Seld\JsonLint\ParsingException;
 
 class Utils
 {
@@ -21,7 +23,7 @@ class Utils
 	 * @param bool $logJson: if true, the exception data will contain the JSON
 	 * @return object|array
 	 */
-	public static function json_decode($json, $assoc = false, $depth = 512, $options = 0, $logJson = false)
+	public static function json_decode($json, $assoc = false, $depth = 512, $options = 0, $logJson = false, $lint = false)
 	{
 		$data = json_decode($json, $assoc, $depth, $options);
 		switch (json_last_error()) {
@@ -49,9 +51,24 @@ class Utils
 		}
 
 		$e = new JsonDecodeException("JSON decode error: {$error}");
+
+		$errData = [];
 		if ($logJson) {
-			$e->setData(array("json" => $json));
+            $errData['json'] = $json;
 		}
+		if ($lint) {
+            $jsonLint = new JsonParser;
+            $errLint = $jsonLint->lint($json);
+
+            $errData['errDetail'] = $errLint instanceof ParsingException
+                ? $errLint->getMessage()
+                : null;
+        }
+
+        if (!empty($errData)) {
+            $e->setData($errData);
+        }
+
 		throw $e;
 	}
 

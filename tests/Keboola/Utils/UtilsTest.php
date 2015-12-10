@@ -1,6 +1,7 @@
 <?php
 
-use Keboola\Utils\Utils;
+use Keboola\Utils\Utils,
+    Keboola\Utils\Exception\JsonDecodeException;
 
 class UtilsTest extends \PHPUnit_Framework_TestCase {
 
@@ -185,5 +186,24 @@ class UtilsTest extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue(Utils::isEmptyObject(new \stdClass));
 		$this->assertTrue(Utils::isEmptyObject((object) ['item' => new \stdClass]));
 		$this->assertFalse(Utils::isEmptyObject((object) ['item' => 'value']));
+	}
+
+	public function testJsonDecodeLint()
+	{
+        $expected = <<<EOT
+Parse error on line 1:
+{"a": {[]}
+------^
+Expected one of: 'STRING', '}'
+EOT;
+
+        try {
+            $str = Utils::json_decode('{"a": {[]}', false, 512, 0, false, true);
+        } catch(JsonDecodeException $e) {
+            self::assertEquals($expected, $e->getData()['errDetail']);
+            $err = $e;
+        }
+
+        self::assertInstanceOf('Keboola\Utils\Exception\JsonDecodeException', $err);
 	}
 }
