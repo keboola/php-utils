@@ -15,9 +15,3 @@ ratings:
 exclude_paths:
 - tests
 - vendor
-- vendor/composer/ClassLoader.php
-- vendor/composer/autoload_real.php
-- vendor/seld/jsonlint/src/Seld/JsonLint/JsonParser.php
-- vendor/seld/jsonlint/src/Seld/JsonLint/Lexer.php
-- vendor/seld/jsonlint/src/Seld/JsonLint/Undefined.php
-- vendor/seld/jsonlint/src/Seld/JsonLint/ParsingException.php
