@@ -22,5 +22,4 @@ EOT;
 
         self::assertInstanceOf('Keboola\Utils\Exception\JsonDecodeException', $err);
     }
-
 }

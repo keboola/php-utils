@@ -39,5 +39,4 @@ class GetDataFromPathTest extends \PHPUnit_Framework_TestCase
         );
         getDataFromPath("a/b/c", $data, "/", false);
     }
-
 }

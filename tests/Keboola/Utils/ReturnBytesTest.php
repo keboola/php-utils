@@ -19,5 +19,4 @@ class ReturnBytesTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(1024*1024*1024, returnBytes("1G"));
     }
-
 }
