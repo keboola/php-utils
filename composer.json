@@ -6,12 +6,15 @@
     "authors": [
         {
             "name": "Ondrej Vana",
-            "email": "kachna@keboola.cz"
+            "email": "kachna@keboola.com"
+        },
+        {
+            "name": "Ondrej Hlavacek",
+            "email": "ondrej.hlavacek@keboola.com"
         }
     ],
     "require": {
 		"keboola/php-temp": "~0.1.0",
-		"keboola/php-csvtable": "~0.1.1",
 		"php": ">=5.5.0",
         "seld/jsonlint": "^1.4"
     },
@@ -22,6 +25,23 @@
 
 	},
 	"autoload": {
+        "files": [
+            "src/Keboola/Utils/jsonDecode.php",
+            "src/Keboola/Utils/sanitizeUtf8.php",
+            "src/Keboola/Utils/objectToArray.php",
+            "src/Keboola/Utils/formatDateTime.php",
+            "src/Keboola/Utils/replaceDates.php",
+            "src/Keboola/Utils/replaceDatesInArray.php",
+            "src/Keboola/Utils/buildUrl.php",
+            "src/Keboola/Utils/httpBuildUrl.php",
+            "src/Keboola/Utils/returnBytes.php",
+            "src/Keboola/Utils/camelize.php",
+            "src/Keboola/Utils/getDataFromPath.php",
+            "src/Keboola/Utils/isValidDateTimeString.php",
+            "src/Keboola/Utils/flattenArray.php",
+            "src/Keboola/Utils/arrayToObject.php",
+            "src/Keboola/Utils/isEmptyObject.php"
+        ],
 		"psr-0": {
 			"Keboola\\Utils": "src/"
 		}

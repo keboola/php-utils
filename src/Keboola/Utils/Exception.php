@@ -1,5 +1,5 @@
 <?php
-namespace Keboola\Utils\Exception;
+namespace Keboola\Utils;
 
 class Exception extends \Exception
 {
