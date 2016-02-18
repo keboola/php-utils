@@ -1,7 +1,9 @@
 <?php
 
-use Keboola\Utils\Utils,
-    Keboola\Utils\Exception\JsonDecodeException;
+namespace Keboola\Utils;
+
+use \Keboola\Utils\Utils;
+use \Keboola\Utils\Exception\JsonDecodeException;
 
 class UtilsTest extends \PHPUnit_Framework_TestCase
 {
@@ -47,7 +49,8 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Utils::replaceDates("%%now%%"), date(DATE_W3C));
     }
 
-    public function testGetDataFromPath() {
+    public function testGetDataFromPath()
+    {
         $data = array(
             "p" => array(
                 "a" => array(
@@ -200,7 +203,7 @@ EOT;
 
         try {
             $str = Utils::json_decode('{"a": {[]}', false, 512, 0, false, true);
-        } catch(JsonDecodeException $e) {
+        } catch (JsonDecodeException $e) {
             self::assertEquals($expected, $e->getData()['errDetail']);
             $err = $e;
         }

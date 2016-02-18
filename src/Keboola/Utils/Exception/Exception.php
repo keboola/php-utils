@@ -1,7 +1,8 @@
 <?php
 namespace Keboola\Utils\Exception;
 
-class Exception extends \Exception {
+class Exception extends \Exception
+{
 
     protected $data = array();
 

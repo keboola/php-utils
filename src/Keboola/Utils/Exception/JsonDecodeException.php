@@ -1,6 +1,7 @@
 <?php
 namespace Keboola\Utils\Exception;
 
-class JsonDecodeException extends Exception {
+class JsonDecodeException extends Exception
+{
 
 }

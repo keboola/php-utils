@@ -2,14 +2,13 @@
 
 namespace Keboola\Utils;
 
-use Keboola\Utils\Exception\JsonDecodeException,
-    Keboola\Utils\Exception\EvalStringException,
-    Keboola\Utils\Exception\NoDataFoundException,
-    Keboola\Utils\Exception\Exception;
+use Keboola\Utils\Exception\JsonDecodeException;
+use Keboola\Utils\Exception\EvalStringException;
+use Keboola\Utils\Exception\NoDataFoundException;
 use Keboola\CsvTable\Table;
 use Keboola\Temp\Temp;
-use Seld\JsonLint\JsonParser,
-    Seld\JsonLint\ParsingException;
+use Seld\JsonLint\JsonParser;
+use Seld\JsonLint\ParsingException;
 
 class Utils
 {
@@ -21,7 +20,9 @@ class Utils
      * @param int $depth
      * @param int $options
      * @param bool $logJson: if true, the exception data will contain the JSON
+     * @param bool $lint
      * @return object|array
+     * @throws JsonDecodeException
      */
     public static function json_decode($json, $assoc = false, $depth = 512, $options = 0, $logJson = false, $lint = false)
     {
@@ -29,25 +30,25 @@ class Utils
         switch (json_last_error()) {
             case JSON_ERROR_NONE:
                 return $data;
-            break;
+                break;
             case JSON_ERROR_DEPTH:
                 $error = 'Maximum stack depth exceeded';
-            break;
+                break;
             case JSON_ERROR_STATE_MISMATCH:
                 $error = 'Underflow or the modes mismatch';
-            break;
+                break;
             case JSON_ERROR_CTRL_CHAR:
                 $error = 'Unexpected control character found';
-            break;
+                break;
             case JSON_ERROR_SYNTAX:
                 $error = 'Syntax error, malformed JSON';
-            break;
+                break;
             case JSON_ERROR_UTF8:
                 $error = 'Malformed UTF-8 characters, possibly incorrectly encoded';
-            break;
+                break;
             default:
                 $error = 'Unknown error';
-            break;
+                break;
         }
 
         $e = new JsonDecodeException("JSON decode error: {$error}");
@@ -77,6 +78,8 @@ class Utils
      *
      * @param mixed $data Data to convert
      * @return array
+     * @throws JsonDecodeException
+     * @throws \Exception
      * @deprecated
      */
     public static function to_assoc($data)
@@ -85,7 +88,7 @@ class Utils
             return self::json_decode($data, true);
         } elseif (is_object($data) || is_array($data)) {
             $data = (array) $data;
-            foreach($data as $key => $value) {
+            foreach ($data as $key => $value) {
                 if (is_object($value) || is_array($value)) {
                     $data[$key] = self::to_assoc($value);
                 }
@@ -106,7 +109,7 @@ class Utils
     public static function objectToArray($object)
     {
         $data = (array) $object;
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             if (is_object($value) || is_array($value)) {
                 $data[$key] = self::objectToArray($value);
             }
@@ -128,6 +131,12 @@ class Utils
         return Table::create($fileName, $header, $temp);
     }
 
+    /**
+     * @param $dateTime
+     * @param string $format
+     * @param null $timezone
+     * @return string
+     */
     public static function formatDateTime($dateTime, $format = DATE_W3C, $timezone = null)
     {
         $dtzObj = $timezone ? new \DateTimeZone($timezone) : null;
@@ -135,18 +144,34 @@ class Utils
         return $dtObj->format($format);
     }
 
+    /**
+     * @param $string
+     * @param string $tag
+     * @param string $format
+     * @param null $timezone
+     * @return mixed
+     */
     public static function replaceDates($string, $tag = '%%', $format = DATE_W3C, $timezone = null)
     {
-        return preg_replace_callback('/'.preg_quote($tag).'(.*?)'.preg_quote($tag).'/',
+        return preg_replace_callback(
+            '/'.preg_quote($tag).'(.*?)'.preg_quote($tag).'/',
             function ($matches) use ($format, $timezone) {
                 return self::formatDateTime($matches[1], $format, $timezone);
             },
-        $string);
+            $string
+        );
     }
 
+    /**
+     * @param $array
+     * @param string $tag
+     * @param string $format
+     * @param null $timezone
+     * @return mixed
+     */
     public static function replaceDatesInArray($array, $tag = '%%', $format = DATE_W3C, $timezone = null)
     {
-        array_walk_recursive($array, function(&$string, $key, $settings) {
+        array_walk_recursive($array, function (&$string, $key, $settings) {
             $string = self::replaceDates($string, $settings['tag'], $settings['format'], $settings['timezone']);
         }, ['tag' => $tag, 'format' => $format, 'timezone' => $timezone]);
         return $array;
@@ -163,7 +188,7 @@ class Utils
     {
         if (!empty($query)) {
             // Cleanup the input array to prevent empty Keys
-            foreach($query as $k => $v) {
+            foreach ($query as $k => $v) {
                 if (empty($k)) {
                     unset($query[$k]);
                 }
@@ -176,7 +201,7 @@ class Utils
             if (isset($parsed["query"]) && strlen($parsed["query"]) > 0) {
                 $newQuery = array();
                 $pairs = explode("&", $parsed["query"]);
-                foreach($pairs as $pair) {
+                foreach ($pairs as $pair) {
                     list($key, $val) = explode("=", $pair, 2);
                     $newQuery[$key] = urldecode($val);
                 }
@@ -233,24 +258,35 @@ class Utils
         return $url;
     }
 
+    /**
+     * @param $val
+     * @return int|string
+     */
     public static function return_bytes($val)
     {
         $val = trim($val);
-        $last = strtolower($val[strlen($val)-1]);
-        switch($last) {
+        $last = strtolower($val[strlen($val) - 1]);
+        switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0
             case 'g':
                 $val *= 1024;
+                break;
             case 'm':
                 $val *= 1024;
+                break;
             case 'k':
                 $val *= 1024;
+                break;
         }
 
         return $val;
     }
 
-
+    /**
+     * @param $string
+     * @param bool $ucfirst
+     * @return mixed|string
+     */
     public static function camelize($string, $ucfirst = false)
     {
         $string = str_replace(["_", "-"], " ", $string);
@@ -264,7 +300,10 @@ class Utils
      *
      * @param string $path path/to/interesting/data
      * @param array|object $data The object containing data
+     * @param string $separator
+     * @param bool $ignoreEmpty
      * @return mixed
+     * @throws NoDataFoundException
      */
     public static function getDataFromPath($path, $data, $separator = "/", $ignoreEmpty = true)
     {
@@ -272,7 +311,7 @@ class Utils
             // TODO possibly add functions in the $path? Such as path/to/join(data) would do a join on that data..likely belongs to EX/(sub)Parser/TR
             $str = explode($separator, $path);
             // Step down into the $data object, iterate until the desired path is reached (if not empty)
-            foreach($str as $key) {
+            foreach ($str as $key) {
                 if (is_object($data) && property_exists($data, $key)) {
                     $data = $data->{$key};
                 } elseif (is_array($data) && isset($data[$key])) {
@@ -337,7 +376,7 @@ class Utils
         ]
     ) {
         // Cleanup unwanted methods
-        $definition = preg_replace_callback("/([\w]*)[\s]*\(/i", function($matches) use($allowedFns, $definition) {
+        $definition = preg_replace_callback("/([\w]*)[\s]*\(/i", function ($matches) use ($allowedFns, $definition) {
             if (!in_array($matches[1], $allowedFns)) {
                 $e = new EvalStringException("Function '{$matches[1]}' is not allowed!");
                 $e->setData(['string' => $definition, 'allowed' => $allowedFns]);
@@ -349,7 +388,7 @@ class Utils
 
         $attributes = self::flattenArray($attributes);
 
-        $definition = preg_replace_callback("/attr\[([\w\.]*)]/", function($matches) use($attributes) {
+        $definition = preg_replace_callback("/attr\[([\w\.]*)]/", function ($matches) use ($attributes) {
             if (!isset($attributes[$matches[1]])) {
                 throw new EvalStringException("Attribute {$matches[1]} not found in the configuration table!");
             }
@@ -370,11 +409,12 @@ class Utils
     public static function flattenArray(array $array, $prefix = "", $glue = '.')
     {
         $result = [];
-        foreach ($array as $key => $value)        {
-            if (is_array($value))
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
                 $result = array_merge($result, self::flattenArray($value, $prefix . $key . $glue));
-            else
+            } else {
                 $result[$prefix . $key] = $value;
+            }
         }
         return $result;
     }
@@ -401,10 +441,10 @@ class Utils
     public static function isEmptyObject(\stdClass $object)
     {
         $vars = get_object_vars($object);
-        if($vars == []) {
+        if ($vars == []) {
             return true;
         } else {
-            foreach($vars as $var) {
+            foreach ($vars as $var) {
                 if (!is_object($var)) {
                     return false;
                 } else {
