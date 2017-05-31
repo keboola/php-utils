@@ -39,4 +39,23 @@ class GetDataFromPathTest extends \PHPUnit_Framework_TestCase
         );
         getDataFromPath("a/b/c", $data, "/", false);
     }
+
+    public function testGetDataFromPath0()
+    {
+        $data = array(
+            array(
+                array(
+                    "t" => array(
+                        "h" => "Hello world!"
+                    )
+                )
+            )
+        );
+        $slash = getDataFromPath("0/0/t/h", $data);
+        $this->assertEquals($slash, $data[0][0]["t"]["h"]);
+        $dot = getDataFromPath("0.0.t.h", $data, ".");
+        $this->assertEquals($dot, $data[0][0]["t"]["h"]);
+        $null = getDataFromPath("0/0/t/g", $data);
+        $this->assertEquals($null, "");
+    }
 }

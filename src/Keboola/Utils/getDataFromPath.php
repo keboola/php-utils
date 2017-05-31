@@ -14,7 +14,7 @@ namespace Keboola\Utils;
  */
 function getDataFromPath($path, $data, $separator = "/", $ignoreEmpty = true)
 {
-    if (!empty($path) && $path != $separator) {
+    if (isset($path) && $path !== $separator) {
         // TODO possibly add functions in the $path? Such as path/to/join(data) would do a join on that data..likely belongs to EX/(sub)Parser/TR
         $str = explode($separator, $path);
         // Step down into the $data object, iterate until the desired path is reached (if not empty)
