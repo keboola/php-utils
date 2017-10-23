@@ -3,7 +3,7 @@
 namespace Keboola\Utils;
 
 /**
- * 
+ *
  * taken from https://api.nette.org/2.4/source-Utils.Strings.php.html#34-43
  *
  * @param $string
