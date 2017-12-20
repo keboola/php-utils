@@ -26,6 +26,7 @@
 	},
 	"autoload": {
         "files": [
+            "src/Keboola/Utils/stripInvalidUtf16.php",
             "src/Keboola/Utils/jsonDecode.php",
             "src/Keboola/Utils/sanitizeUtf8.php",
             "src/Keboola/Utils/objectToArray.php",
