@@ -7,12 +7,8 @@
   ],
   "authors": [
     {
-      "name": "Ondrej Vana",
-      "email": "kachna@keboola.com"
-    },
-    {
-      "name": "Ondrej Hlavacek",
-      "email": "ondrej.hlavacek@keboola.com"
+      "name": "Keboola",
+      "email": "devel@keboola.com"
     }
   ],
   "require": {
