@@ -6,7 +6,6 @@ class SanitizeColumnNameTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider namesToSanitize
-     *
      **/
     public function testSanitizeColumnName($nameToSanitize, $sanitizedName)
     {
@@ -14,12 +13,18 @@ class SanitizeColumnNameTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($sanitizedName, $sanitized);
     }
 
-    private function namesToSanitize()
+    public function namesToSanitize()
     {
         return [
             [
                 "_~dlažební  %_kostky_~",
-                "dlazebni_kostky"
+                "dlazebni__kostky"
+            ],[
+                "test-vn-đá cuội",
+                ""
+            ],[
+                "jp日本語",
+                ""
             ]
         ];
     }

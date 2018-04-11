@@ -4,9 +4,28 @@ namespace Keboola\Utils;
 
 class ToAsciiTest extends \PHPUnit_Framework_TestCase
 {
-    public function testToAscii()
+    /**
+     * @dataProvider testStrings
+     **/
+    public function testToAscii($testString, $expectedAscii)
     {
-        $asciid = toAscii("~dlažební  %kostky_~");
-        $this->assertEquals("~dlazebni  %kostky_~", $asciid);
+        $asciid = toAscii($testString);
+        $this->assertEquals($expectedAscii, $asciid);
+    }
+
+    public function testStrings()
+    {
+        return [
+            [
+                "_~dlažební  %_kostky_~",
+                "_~dlazebni  %_kostky_~"
+            ],[
+                "test-vn-đá cuội",
+                ""
+            ],[
+                "jp日本語",
+                ""
+            ]
+        ];
     }
 }
