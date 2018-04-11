@@ -42,7 +42,9 @@
       "src/Keboola/Utils/flattenArray.php",
       "src/Keboola/Utils/arrayToObject.php",
       "src/Keboola/Utils/isEmptyObject.php",
-      "src/Keboola/Utils/stripInvalidUtf16.php"
+      "src/Keboola/Utils/stripInvalidUtf16.php",
+      "src/Keboola/Utils/toAscii.php",
+      "src/Keboola/Utils/sanitizeName.php"
     ],
     "psr-0": {
       "Keboola\\Utils": "src/"
