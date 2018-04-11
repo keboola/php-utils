@@ -21,10 +21,10 @@ class SanitizeColumnNameTest extends \PHPUnit_Framework_TestCase
                 "dlazebni__kostky"
             ],[
                 "test-vn-đá cuội",
-                ""
+                "test_vn_da_cuoi"
             ],[
                 "jp日本語",
-                ""
+                "jp"
             ]
         ];
     }

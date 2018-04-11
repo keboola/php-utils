@@ -21,10 +21,10 @@ class ToAsciiTest extends \PHPUnit_Framework_TestCase
                 "_~dlazebni  %_kostky_~"
             ],[
                 "test-vn-đá cuội",
-                ""
+                "test-vn-da cuoi"
             ],[
                 "jp日本語",
-                ""
+                "jp???"
             ]
         ];
     }
