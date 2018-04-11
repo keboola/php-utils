@@ -10,13 +10,23 @@ namespace Keboola\Utils;
  * @param  bool
  * @return string
  */
-function sanitizeName($s, $charlist = null, $lower = true)
+function sanitizeColumnName($s, $charlist = '_', $lower = false)
 {
+    $systemColumns = [
+        'oid',
+        'tableoid',
+        'xmin',
+        'cmin',
+        'xmax',
+        'cmax',
+        'ctid',
+    ];
+
     $s = toAscii($s);
     if ($lower) {
         $s = strtolower($s);
     }
     $s = preg_replace('#[^a-z0-9' . preg_quote($charlist, '#') . ']+#i', '_', $s);
     $s = trim($s, '_');
-    return $s;
+    return in_array(strtolower($s), array_map('strtolower', $systemColumns)) ? "{$s}_" : $s;
 }
