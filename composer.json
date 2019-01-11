@@ -15,7 +15,7 @@
     "keboola/php-temp": "^1.0",
     "php": ">=5.6.0",
     "seld/jsonlint": "^1.4",
-    "keboola/sanitizer": "dev-odin-init"
+    "keboola/sanitizer": "^0.1"
   },
   "require-dev": {
     "phpunit/phpunit": "~5.0",
