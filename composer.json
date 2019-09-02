@@ -12,7 +12,6 @@
     }
   ],
   "require": {
-    "keboola/php-temp": "^1.0||^2.0",
     "php": ">=5.6.0",
     "seld/jsonlint": "^1.4",
     "keboola/sanitizer": "^0.1"
