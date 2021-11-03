@@ -41,7 +41,8 @@
       "src/Keboola/Utils/stripInvalidUtf16.php",
       "src/Keboola/Utils/toAscii.php",
       "src/Keboola/Utils/sanitizeColumnName.php",
-      "src/Keboola/Utils/formatBytes.php"
+      "src/Keboola/Utils/formatBytes.php",
+      "src/Keboola/Utils/castToBool.php"
     ],
     "psr-0": {
       "Keboola\\Utils": "src/"
