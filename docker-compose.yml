@@ -8,3 +8,8 @@ services:
     tty: true
     command: bash
     working_dir: /code
+
+  ci:
+    build: .
+    image: keboola/php-utils
+    command: ['composer', 'ci']

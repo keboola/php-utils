@@ -1,0 +1,12 @@
+name: GitHub Actions
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Build & Test
+        run: |
+          docker-compose build ci
+          docker-compose run --rm ci
