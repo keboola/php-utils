@@ -1,4 +1,4 @@
-FROM php:5.6
+FROM php:7.4-cli
 
 RUN apt-get update -q \
   && apt-get install wget unzip git -y --no-install-recommends
