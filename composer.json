@@ -21,6 +21,14 @@
     "codeclimate/php-test-reporter": "~0.2",
     "squizlabs/php_codesniffer": "~2.4"
   },
+  "scripts": {
+    "phpcs": "phpcs --standard=psr2 --ignore=vendor -n src tests",
+    "phpunit": "phpunit --whitelist=src/",
+    "ci": [
+      "@phpcs",
+      "@phpunit"
+    ]
+  },
   "autoload": {
     "files": [
       "src/Keboola/Utils/jsonDecode.php",

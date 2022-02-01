@@ -11,5 +11,5 @@ services:
 
   ci:
     build: .
-    image: keboola/keboola/php-utils
-    command: bash
+    image: keboola/php-utils
+    command: ['composer', 'ci']

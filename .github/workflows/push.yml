@@ -9,4 +9,4 @@ jobs:
       - name: Build & Test
         run: |
           docker-compose build ci
-          docker-compose run --rm ci /code/vendor/bin/phpunit
+          docker-compose run --rm ci
