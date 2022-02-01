@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Keboola\Utils;
 
 /**
  * @param mixed $castToBool
- * @return bool
  */
-function castToBool($castToBool)
+function castToBool($castToBool): bool
 {
     if (is_string($castToBool)) {
         if ($castToBool === '1') {

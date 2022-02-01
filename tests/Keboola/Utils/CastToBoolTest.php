@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Keboola\Utils;
 
 use PHPUnit_Framework_TestCase;
 
 class CastToBoolTest extends PHPUnit_Framework_TestCase
 {
-    public function testCast()
+    public function testCast(): void
     {
         self::assertTrue(castToBool(true));
         self::assertTrue(castToBool('true'));
