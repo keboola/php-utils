@@ -1,3 +1,9 @@
-#Keboola PHP Utils
+# PHP Utils
 
-[![Build Status](https://travis-ci.org/keboola/php-utils.svg?branch=master)](https://travis-ci.org/keboola/php-utils) [![Code Climate](https://codeclimate.com/github/keboola/php-utils/badges/gpa.svg)](https://codeclimate.com/github/keboola/php-utils) [![Test Coverage](https://codeclimate.com/github/keboola/php-utils/badges/coverage.svg)](https://codeclimate.com/github/keboola/php-utils)
+[![Build](https://github.com/keboola/php-utils/actions/workflows/push.yml/badge.svg)](https://github.com/keboola/php-utils/actions/workflows/push.yml)
+[![Code Climate](https://codeclimate.com/github/keboola/php-utils/badges/gpa.svg)](https://codeclimate.com/github/keboola/php-utils)
+[![Test Coverage](https://codeclimate.com/github/keboola/php-utils/badges/coverage.svg)](https://codeclimate.com/github/keboola/php-utils)
+
+## License
+
+MIT licensed, see [LICENSE](./LICENSE) file.
