@@ -14,10 +14,10 @@
   "require": {
     "php": ">=7.4",
     "seld/jsonlint": "^1.4",
-    "keboola/sanitizer": "^0.1",
-    "keboola/coding-standard": "^13.0"
+    "keboola/sanitizer": "^0.1"
   },
   "require-dev": {
+    "keboola/coding-standard": "^13.0",
     "phpunit/phpunit": "~5.0"
   },
   "scripts": {
